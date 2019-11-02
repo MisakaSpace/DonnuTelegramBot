@@ -1,6 +1,6 @@
-# MisakaDonnuTelegramBot
+# DonnuTelegramBot
 
-MisakaDonnuTelegramBot - це бот телеграм який допомагає дізнатись розклад.
+DonnuTelegramBot - це бот телеграм який допомагає дізнатись розклад.
 
 ## Встановлення
 
@@ -37,9 +37,9 @@ python __init__.py
 ![image](https://user-images.githubusercontent.com/31675199/54159564-eec04e00-4455-11e9-96bd-d9718b7a639f.png)
 ![image](https://user-images.githubusercontent.com/31675199/54159833-a2294280-4456-11e9-9004-08e35b89c8a7.png)
 
-## Contributing
+## Співробітництво
 Pull-запити вітаються. Для значних змін, спочатку відкрийте issue, щоб обговорити те, що ви хотіли б змінити.
 
 
-## License
+## Ліцензія
 [GNU General Public License v3.0](https://github.com/MisakaDev/MisakaDonnuTelegramBot/blob/master/LICENSE)
