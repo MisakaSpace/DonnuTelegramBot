@@ -1,7 +1,7 @@
 import datetime
 import random
 
-from bot.helpers import get_day_name, get_pair_time, get_pair_status
+from bot.helpers import get_day_name, get_pair_time, get_pair_status, find_day
 from db import Statistic
 
 
@@ -65,6 +65,12 @@ admin_update_schedule_success = lambda: random.choice(("Розклад успі�
 admin_update_schedule_error_parse = lambda error: random.choice(("Помилка при оновлені: " + str(error),))
 admin_update_schedule_error_bad_file = lambda: random.choice(("Я не розумію що це за файл. Надішли мені таблицю!",))
 admin_update_schedule_error_not_admin = lambda: random.choice(("Ей, в тебе немає прав!",))
+
+
+ai_other = lambda: random.choice(("Я тебе не розумію. Запитай краще розклад на завтра, а то пропустиш пари.",))
+ai_greeting = lambda: random.choice(("Вітаю, я майже розумний бот, можеш запитати в мене розклад",))
+ai_parting = lambda: random.choice(("Бувай, пиши якщо щось потрібно",))
+ai_kidding = lambda: random.choice(("Ха ха ха, не смішно. Я показую тільки розклад пар.",))
 
 
 def render_pair_info():
@@ -131,5 +137,5 @@ async def render_statistics():
     top = "🆙 Найпопулярніший запит: \n \t{}".format(
         "\n \t".join(['{} - {}'.format(count, message) for message, count in top_message])
     )
-
-    return "{}\n{}\n{}".format(count, user, top)
+    status = "Я працюю нормально."
+    return "{}\n{}\n{}\n{}".format(status, count, user, top)

@@ -11,6 +11,8 @@ from db import User, Group
 from . import dp, bot
 from .phrases import Keyboard
 
+from ai.test import get_prediction
+
 
 @dp.message_handler(commands=['start', 'help'])
 async def start(message: types.Message, state: FSMContext):
@@ -208,5 +210,28 @@ async def admin_update_schedule(message):
 
 
 @dp.message_handler()
-async def unknown(message):
-    await bot.send_message(message.chat.id, phrases.unknown_cmd(), reply_markup=menu.default_menu())
+async def other_ai(message):
+    user = await User.get_or_create(telegram_id=message.from_user.id)
+
+    prediction = get_prediction(message.text)
+    top_class, top_acc = prediction[0]
+    pred_acc = " [Cat: {} | Acc: {:0.2f}]".format(top_class, float(top_acc))
+    if top_class == 'other':
+        return await bot.send_message(message.chat.id, phrases.ai_other() + pred_acc, reply_markup=menu.default_menu())
+    elif top_class == 'greeting':
+        return await bot.send_message(message.chat.id, phrases.ai_greeting() + pred_acc, reply_markup=menu.default_menu())
+    elif top_class == 'parting':
+        return await bot.send_message(message.chat.id, phrases.ai_parting() + pred_acc,
+                                      reply_markup=menu.default_menu())
+    elif top_class == 'wassup':
+        return await statistic(message)
+    elif top_class == 'kidding':
+        return await bot.send_message(message.chat.id, phrases.ai_kidding() + pred_acc,
+                                      reply_markup=menu.default_menu())
+    elif top_class == 'schedule':
+        day = helpers.find_day(message.text)
+        if not day:
+            day = datetime.datetime.today()
+        message_date = day
+        schedule_for_date = await user.get_schedule_by_day(message_date)
+        await bot.send_message(message.chat.id, phrases.render_schedule_for_date(schedule_for_date, message_date))

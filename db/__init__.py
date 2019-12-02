@@ -38,10 +38,12 @@ class User(db.Model):
         await self.update(group_id=group_id).apply()
 
     async def get_schedule_by_day(self, date):
+        if getattr(date, 'date', None):
+            date = date.date()
         return await Schedule.query.where(
             Schedule.group_id == self.group_id
         ).where(
-            Schedule.date == date.date()
+            Schedule.date == date
         ).order_by(
             Schedule.pair_number
         ).gino.all()
